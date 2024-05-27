@@ -1,4 +1,4 @@
-import PingPong from "./Components/PingPong";
+import Counter from "./Components/Counter"
 import Header from "./Components/Header";
 
 const App = () => {
@@ -6,7 +6,7 @@ const App = () => {
   return (
     <div className="bg-gray-900 text-gray-300">
     <Header />
-    <PingPong/>
+    <Counter/>
     </div>
   );
 };
