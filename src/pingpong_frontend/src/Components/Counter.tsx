@@ -13,7 +13,6 @@ type uiMessage = {
 
 const Counter = () => {
   const [messages, setMessages] = useState<uiMessage[]>([]);
-  const [messagesCount, setMessagesCount] = useState(0);
   const [isActive, setIsActive] = useState(false);
   var Counter = 0;
   const [connecting, setConnecting] = useState(true);
@@ -50,12 +49,6 @@ const Counter = () => {
         };
         setMessages((prev) => [...prev, fromBackendMessage]);
 
-        setMessagesCount((prev) => prev + 1);
-        
-        setTimeout(async () => {
-          sendMessage();
-          Counter++;
-        }, 1000);
       } catch (error) {
         console.log("Error recievinf message", error);
       }
@@ -87,19 +80,22 @@ const Counter = () => {
     window.location.reload();
   };
 
-  useEffect(() => {
-    if (messagesCount === 5) {
-      ws.close();
-    }
-  }, [messagesCount]);
-
   console.log(messages);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="min-h-screen min-w-[800px] mt-5 rounded bg-gray-700">
         <div className="w-full h-full flex gap-5 items-center justify-center my-5">
           {isConnected && (
-            <h3 className="text-lg font-semibold">Websocket open</h3>
+            <>
+              <h3 className="text-lg font-semibold">Websocket open</h3>
+              <button
+                onClick={sendMessage}
+                className={` ${connecting ? `hidden` : `block`
+                  } bg-blue-500 rounded-lg py-1.5 px-2 font-semibold hover:bg-gray-900`}
+              >
+                Send
+              </button>
+            </>
           )}
           {isClosed && (
             <h3 className="text-lg font-semibold">Websocket closed</h3>
@@ -111,18 +107,16 @@ const Counter = () => {
           {!isActive && !connecting ? (
             <button
               onClick={handleReconnect}
-              className={` ${
-                connecting ? `hidden` : `block`
-              } bg-blue-500 rounded-lg py-1.5 px-2 font-semibold hover:bg-gray-900`}
+              className={` ${connecting ? `hidden` : `block`
+                } bg-blue-500 rounded-lg py-1.5 px-2 font-semibold hover:bg-gray-900`}
             >
               Replay
             </button>
           ) : (
             <button
               onClick={isConnected ? handleClose : handleReconnect}
-              className={` ${
-                connecting ? `hidden` : `block`
-              } bg-blue-500 rounded-lg py-1.5 px-2 font-semibold hover:bg-gray-900`}
+              className={` ${connecting ? `hidden` : `block`
+                } bg-blue-500 rounded-lg py-1.5 px-2 font-semibold hover:bg-gray-900`}
             >
               {isConnected ? "Close" : "Reconnect"}
             </button>
@@ -132,11 +126,10 @@ const Counter = () => {
           {messages.map((message, index) => (
             <div
               key={index}
-              className={` ${
-                message.from === "backend"
+              className={` ${message.from === "backend"
                   ? `bg-gray-900  text-gray-200`
                   : `bg-gray-200 text-gray-950`
-              }  mx-5  p-2 flex gap-10`}
+                }  mx-5  p-2 flex gap-10`}
             >
               {message.from === "backend" ? (
                 <span className="flex gap-3 items-center">
