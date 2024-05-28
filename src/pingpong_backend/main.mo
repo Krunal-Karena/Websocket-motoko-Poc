@@ -29,7 +29,7 @@ actor {
 
   func on_open(args : IcWebSocketCdk.OnOpenCallbackArgs) : async () {
     let message : AppMessage = {
-      message = "Ping";
+      message = "Connected";
     };
     await send_app_message(args.client_principal, message);
   };
@@ -41,7 +41,7 @@ actor {
     let app_msg : ?AppMessage = from_candid(args.message);
     let new_msg: AppMessage = switch (app_msg) {
       case (?msg) { 
-        { message = Text.concat(msg.message, " ping") };
+        {message = msg.message};
       };
       case (null) {
         Debug.print("Could not deserialize message");
@@ -67,7 +67,7 @@ actor {
     ?on_close,
   );
 
-  let ws = IcWebSocketCdk.IcWebSocket(ws_state, params, handlers);
+  let ws = IcWebSocketCdk.IcWebSocket<system>(ws_state, params, handlers);
 
   // method called by the WS Gateway after receiving FirstMessage from the client
   public shared ({ caller }) func ws_open(args : IcWebSocketCdk.CanisterWsOpenArguments) : async IcWebSocketCdk.CanisterWsOpenResult {
