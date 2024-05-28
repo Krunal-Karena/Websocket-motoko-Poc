@@ -29,7 +29,6 @@ The backend canister is a [Motoko canister](https://internetcomputer.org/docs/cu
 If you want to test your project locally, follow these preparation steps:
 - make sure you are running an IC WebSocket Gateway locally. See the [IC WebSocket Gateway](https://github.com/omnia-network/ic-websocket-gateway) repository for more details.
 - change the addresses of the local replica and the local IC WebSocket Gateway at the top of the [ws.ts](src/pingpong_frontend/src/utils/ws.ts) file.
-- change the `GATEWAY_PRINCIPAL` value in the [main.mo](src/pingpong_backend/main.mo) file, using the principal that the IC WebSocket Gateway prints when it starts.
 
 After completing the preparation steps, run the following commands:
 
@@ -42,8 +41,19 @@ npm install
 
 # Starts the replica, running in the background
 dfx start --clean --background
+```
 
-# Deploys your canisters to the replica and generates your candid interface
+## Clone [Repo](https://github.com/omnia-network/ic-websocket-gateway)
+
+Then start local gateway on cloned repo
+```
+cargo run
+```
+
+### Now get back to current repo
+
+Deploys your canisters to the replica and generates your candid interface
+```
 dfx deploy
 ```
 
