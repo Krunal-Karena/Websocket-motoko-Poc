@@ -127,8 +127,8 @@ const Counter = () => {
             <div
               key={index}
               className={` ${message.from === "backend"
-                  ? `bg-gray-900  text-gray-200`
-                  : `bg-gray-200 text-gray-950`
+                ? `bg-gray-900  text-gray-200`
+                : `bg-gray-200 text-gray-950`
                 }  mx-5  p-2 flex gap-10`}
             >
               {message.from === "backend" ? (
