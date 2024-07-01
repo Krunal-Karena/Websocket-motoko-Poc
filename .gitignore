@@ -20,4 +20,4 @@ node_modules/
 dist/
 
 # environment variables
-.env
+config.bat
